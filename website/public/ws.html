@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Team A8 demo</title>
+  <script>
+    var socket = new WebSocket('wss://slippery-eagle-43.localtunnel.me');
+  </script>
+  <script>
+    var data_1;
+    var data_2;
+    var data_3;
+    var data_4;
+    var data_5;
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+  <div class="all">
+    <div class="infographics">
+      <div class="groupName">
+        <h1>
+          Group A8
+        </h1>
+      </div>
+    </div>
+    <div class="allcharts">
+      <div class="couplet">
+        <div class="card">
+          <h4>&nbsp;Voltage :&nbsp; </h4>
+          <div class="sensor">
+            <h4>
+              <div id="data1"></div>
+            </h4>
+            <h4>V</h4>
+          </div>
+        </div>
+        <canvas id="voltage-chart" width="500" height="300"></canvas>
+      </div>
+
+      <div class="couplet">
+        <div class="card">
+          <h4>&nbsp;Current :&nbsp; </h4>
+          <div class="sensor">
+            <h4>
+              <div id="data2"></div>
+            </h4>
+            <h4>A</h4>
+          </div>
+        </div>
+        <canvas id="current-chart" width="500" height="300"></canvas>
+      </div>
+
+      <div class="couplet">
+        <div class="card">
+          <h4>&nbsp;Wind Sensor Voltage :&nbsp; </h4>
+          <div class="sensor">
+            <h4>
+              <div id="data3"></div>
+            </h4>
+            <h4>V</h4>
+          </div>
+        </div>
+        <canvas id="wsvoltage-chart" width="500" height="300"></canvas>
+      </div>
+
+      <div class="couplet">
+        <div class="card">
+          <h4>&nbsp;Power :&nbsp; </h4>
+          <div class="sensor">
+            <h4>
+              <div id="data4"></div>
+            </h4>
+            <h4>W</h4>
+          </div>
+        </div>
+        <canvas id="power-chart" width="500" height="300"></canvas>
+      </div>
+
+      <div class="couplet">
+        <div class="card">
+          <h4>&nbsp;Duty Cycle :&nbsp; </h4>
+          <div class="sensor">
+            <h4>
+              <div id="data5"></div>
+            </h4>
+            <h4>%</h4>
+          </div>
+        </div>
+        <canvas id="duty-chart" width="500" height="300"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+
+  <script>
+    // The socket connection needs two event listeners:
+    socket.onopen = openSocket;
+    socket.onmessage = showData;
+    var numbers;
+
+    var canvas = document.getElementById('voltage-chart'),
+      ctx1 = canvas.getContext('2d'),
+      startingData1 = {
+        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        datasets: [{
+          fill: false,
+          strokeColor: "rgba(151,187,205,1)",
+          pointColor: "rgba(151,187,205,1)",
+          pointStrokeColor: "#fff",
+          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        }]
+      },
+
+      latestLabel1 = startingData1.labels[6];
+    var voltagechart = new Chart(ctx1).Line(startingData1, {
+      animationSteps: 15,
+      scaleOverride: true,
+      scaleSteps: 4,
+      scaleStepWidth: 4,
+      scaleStartValue: 0
+    });
+
+    var canvas = document.getElementById('current-chart'),
+      ctx2 = canvas.getContext('2d'),
+      startingData2 = {
+        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        datasets: [{
+          fill: false,
+          strokeColor: "rgba(151,187,205,1)",
+          pointColor: "rgba(151,187,205,1)",
+          pointStrokeColor: "#fff",
+          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        }],
+        scaleLabel: [{
+          padding: 4,
+        }]
+      },
+      latestLabel2 = startingData2.labels[6];
+    var currentchart = new Chart(ctx2).Line(startingData2, {
+      animationSteps: 15,
+      scaleOverride: true,
+      scaleSteps: 6,
+      scaleStepWidth: 0.05,
+      scaleStartValue: 0
+    });
+
+    var canvas = document.getElementById('wsvoltage-chart'),
+      ctx3 = canvas.getContext('2d'),
+      startingData3 = {
+        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        datasets: [{
+          fill: false,
+          strokeColor: "rgba(151,187,205,1)",
+          pointColor: "rgba(151,187,205,1)",
+          pointStrokeColor: "#fff",
+          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        }]
+      },
+      latestLabel3 = startingData3.labels[6];
+    var wsvoltagechart = new Chart(ctx3).Line(startingData3, {
+      animationSteps: 15,
+      scaleOverride: true,
+      scaleSteps: 5,
+      scaleStepWidth: 1,
+      scaleStartValue: 0
+    });
+
+    var canvas = document.getElementById('power-chart'),
+      ctx4 = canvas.getContext('2d'),
+      startingData4 = {
+        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        datasets: [{
+          fill: false,
+          strokeColor: "rgba(151,187,205,1)",
+          pointColor: "rgba(151,187,205,1)",
+          pointStrokeColor: "#fff",
+          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        }]
+      },
+      latestLabel4 = startingData4.labels[6];
+    var powerchart = new Chart(ctx4).Line(startingData4, {
+      animationSteps: 15,
+      scaleOverride: true,
+      scaleSteps: 6,
+      scaleStepWidth: 0.5,
+      scaleStartValue: 0
+    });
+
+    var canvas = document.getElementById('duty-chart'),
+      ctx5 = canvas.getContext('2d'),
+      startingData5 = {
+        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        datasets: [{
+          strokeColor: "rgba(151,187,205,1)",
+          fill: false,
+          pointColor: "rgba(151,187,205,1)",
+          pointStrokeColor: "#fff",
+          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        }]
+      },
+      latestLabel5 = startingData5.labels[6];
+    var dutychart = new Chart(ctx5).Line(startingData5, {
+      animationSteps: 15,
+      scaleOverride: true,
+      scaleSteps: 10,
+      scaleStepWidth: 10,
+      scaleStartValue: 0
+    });
+
+
+
+    function openSocket() {
+      socket.send("Hello server");
+    }
+
+    setInterval(function () {
+      voltagechart.addData([numbers[1]], ++latestLabel1);
+      voltagechart.removeData();
+
+      currentchart.addData([numbers[2]], ++latestLabel2);
+      currentchart.removeData();
+
+      wsvoltagechart.addData([numbers[3]], ++latestLabel3);
+      wsvoltagechart.removeData();
+
+      powerchart.addData([numbers[4]], ++latestLabel4);
+      powerchart.removeData();
+
+      dutychart.addData([numbers[5]], ++latestLabel5);
+      dutychart.removeData();
+    }, 1000);
+
+    /*
+    showData(), below, will get called whenever there is new Data
+    from the server. So there's no need for a draw() function:
+    */
+    function showData(result) {
+      console.log('websocket is connected ...')
+      // when the server returns, show the result in the div:  
+      // lt --port 3000
+      // lt --port 8080
+      var str = result.data;
+      numbers = str.split(',');
+      document.getElementById("data1").innerHTML = numbers[1];
+      document.getElementById("data2").innerHTML = numbers[2];
+      document.getElementById("data3").innerHTML = numbers[3];
+      document.getElementById("data4").innerHTML = numbers[4];
+      document.getElementById("data5").innerHTML = numbers[5];
+    }
+  </script>
+</body>
+
+</html>

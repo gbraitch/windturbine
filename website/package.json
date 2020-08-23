@@ -1,0 +1,26 @@
+{
+  "name": "node-socket",
+  "version": "1.0.0",
+  "description": "Serialport, ws, express",
+  "main": "ws.js",
+  "dependencies": {
+    "express": "^4.16.4",
+    "serialport": "^7.1.4",
+    "ws": "^6.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gbraitch/node-socket.git"
+  },
+  "author": "Gursewak Bratich",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gbraitch/node-socket/issues"
+  },
+  "homepage": "https://github.com/gbraitch/node-socket#readme"
+}
