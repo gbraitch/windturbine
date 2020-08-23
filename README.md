@@ -15,6 +15,8 @@ Packages Used:
 Designed a website that shows a real time graphs of data that Arduino is transmitting to local machine using bluetooth.
 Use localtunnel to then create web server to view the real time analong sensor values. 
 
+![websiteScreenshot](https://user-images.githubusercontent.com/8892975/90968876-79f49e80-e4a6-11ea-8701-c152e0f6381e.PNG)
+
 To run, do : node ws.js 'serialport'
 For mac, serial port could be for example '/dev/cu.usbmodem123'
 For windows, typically COM1, COM2, etc.
