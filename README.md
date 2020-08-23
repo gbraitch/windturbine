@@ -24,3 +24,10 @@ For windows, typically COM1, COM2, etc.
 Also need to create local tunnels, using lt --port 8080.
 Copy that link to the ws.html for the address of var scoket = new Websocket('wss://...').
 Then, lt--port 3000 will give link to live webserver which can viewed in browser.
+
+
+## Final Design
+
+![IMG_0372](https://user-images.githubusercontent.com/8892975/90968903-eec7d880-e4a6-11ea-853d-3fa1d07b014b.JPG)
+![IMG_0374](https://user-images.githubusercontent.com/8892975/90968907-f8e9d700-e4a6-11ea-820f-7ee57651f928.JPG)
+
